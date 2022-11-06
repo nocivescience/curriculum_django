@@ -1,5 +1,9 @@
-from django.shortcuts import render
-
-# Create your views here.
-def home(request):
-    return render(request,'hola mundo')
+from django.shortcuts import render, get_object_or_404
+from .models import Post
+def renderPosts(request):
+    total_posts=Post.objects.count()
+    posts= Post.objets.order_by('-date')
+    return render(request, 'blog.html', {'posts':posts, 'total_posts': total_posts})
+def post_detail(request, post_id):
+    post=get_object_or_404(Post, pk=post_id) #que es pk y reemplazarlo por id
+    return render(request,'post_detail.html',{'post':post})
